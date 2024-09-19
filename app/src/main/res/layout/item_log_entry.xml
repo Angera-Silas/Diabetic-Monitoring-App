@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/tvBloodSugar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Blood Sugar Level"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvMorningMedication"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Morning Medication" />
+
+    <TextView
+        android:id="@+id/tvAfternoonMedication"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Afternoon Medication" />
+
+    <TextView
+        android:id="@+id/tvEveningMedication"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Evening Medication" />
+
+</LinearLayout>
