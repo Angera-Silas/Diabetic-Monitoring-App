@@ -7,4 +7,6 @@
     <color name="pink">#FF00FF</color>
     <color name="sky">#63C5DA</color>
     <color name="cerulean">#0492C2</color>
+    <color name="custom_blue">#0000FF</color>
+    <color name="light_blue"> #ADD8E6</color>
 </resources>

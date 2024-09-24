@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/baseline_youtube_searched_for_24"
+        android:title="Home" />
+
+    <item
+        android:id="@+id/nav_medication"
+        android:icon="@drawable/baseline_medication_24"
+        android:title="Medication Report" />
+
+    <item android:title="Doctor">
+        <menu>
+            <item
+                android:id="@+id/nav_appointment"
+                android:icon="@drawable/baseline_medication_24"
+                android:title="Appointment" />
+            <item
+                android:id="@+id/nav_chat"
+                android:icon="@drawable/baseline_chat_24"
+                android:title="Chat" />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/nav_logout"
+        android:icon="@drawable/baseline_logout_24"
+        android:title="Logout" />
+</menu>

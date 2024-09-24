@@ -7,6 +7,7 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class DiabeticLogEntry : AppCompatActivity() {
@@ -24,6 +25,9 @@ class DiabeticLogEntry : AppCompatActivity() {
 
     // Initialize Firestore instance
     private val db = FirebaseFirestore.getInstance()
+
+    // Get the current user ID
+    private val userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,8 +54,9 @@ class DiabeticLogEntry : AppCompatActivity() {
             val afternoonMed = etAfternoonMedication.text.toString().toIntOrNull() ?: 0
             val eveningMed = etEveningMedication.text.toString().toIntOrNull() ?: 0
 
-            // Add new log entry
+            // Add new log entry with userId
             val newEntry = LogEntry(
+                userId = userId, // Include userId here
                 bloodSugar = bloodSugar,
                 morningMedication = morningMed,
                 afternoonMedication = afternoonMed,
@@ -66,7 +71,7 @@ class DiabeticLogEntry : AppCompatActivity() {
 
         // Navigate to Records activity on button click
         btnGoToRecords.setOnClickListener {
-            val intent = Intent(this, Records::class.java)
+            val intent = Intent(this, PRecords::class.java)
             startActivity(intent)
         }
     }
@@ -85,10 +90,3 @@ class DiabeticLogEntry : AppCompatActivity() {
             }
     }
 }
-
-data class LogEntry(
-    val bloodSugar: Int = 0,
-    val morningMedication: Int = 0,
-    val afternoonMedication: Int = 0,
-    val eveningMedication: Int = 0
-)

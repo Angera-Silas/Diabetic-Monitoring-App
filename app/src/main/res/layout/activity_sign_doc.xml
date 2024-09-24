@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:background="@color/blue"
     android:layout_height="match_parent"
-    tools:context=".signdoc">
+    tools:context=".SignDoc">
 
 
     <EditText
@@ -34,7 +34,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextEmail" />
+        app:layout_constraintTop_toBottomOf="@id/editTextEmail"
+        tools:ignore="DuplicateClickableBoundsCheck" />
 
     <EditText
         android:id="@+id/editTextDOB"
@@ -43,6 +44,7 @@
         android:layout_marginTop="40dp"
         android:clickable="true"
         android:focusable="false"
+        android:inputType="date"
         android:background="@drawable/rounded_input_field"
         android:hint="Date of Birth"
         android:padding="16dp"
@@ -93,4 +95,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/btnSignUp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
