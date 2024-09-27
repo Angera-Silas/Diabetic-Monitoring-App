@@ -4,16 +4,24 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <Spinner
-        android:id="@+id/spinnerTimeOfDay"
+    <EditText
+        android:id="@+id/etBloodSugar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="Enter Blood Sugar Level (mg/dL)"
+        android:inputType="number"
+        android:minHeight="48dp" />
+
+    <EditText
+        android:id="@+id/etMedication"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Medication"
         android:minHeight="48dp" />
 
     <Button
-        android:id="@+id/btnProceed"
+        android:id="@+id/btnAddEntry"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Proceed" />
-
+        android:text="Add Entry" />
 </LinearLayout>

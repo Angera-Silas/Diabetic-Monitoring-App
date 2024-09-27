@@ -15,6 +15,21 @@
         android:theme="@style/Theme.Diab"
         tools:targetApi="31">
         <activity
+            android:name=".LogbookActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ReportsActivity"
+            android:exported="true" />
+        <activity
+            android:name=".GlucoseEntryActivity"
+            android:exported="true" />
+        <activity
+            android:name=".AdminLogIn"
+            android:exported="false" />
+        <activity
+            android:name=".SignPatient"
+            android:exported="false" />
+        <activity
             android:name=".PRecords"
             android:exported="false" />
         <activity
@@ -31,16 +46,16 @@
             android:label="@string/title_activity_patient_dashboard"
             android:theme="@style/Theme.Diab.NoActionBar" />
         <activity
-            android:name=".SignPatient"
+            android:name=".PatientLogIn"
             android:exported="false" />
         <activity
-            android:name=".PatientLogIn"
+            android:name=".LoginDoc"
             android:exported="false" />
         <activity
             android:name=".SignDoc"
             android:exported="false" />
         <activity
-            android:name=".DiabeticLogEntry"
+            android:name=".AdminSign"
             android:exported="false" />
         <activity
             android:name=".PatientDash"
@@ -58,7 +73,7 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginDoc"
+            android:name=".DiabeticLogEntry"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

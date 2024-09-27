@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -6,61 +5,19 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Input for Blood Sugar -->
-    <EditText
-        android:id="@+id/etBloodSugar"
+    <!-- Spinner for selecting time of day -->
+    <Spinner
+        android:id="@+id/spinnerTimeOfDay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter Blood Sugar Level (mg/dL)"
-        android:inputType="number"
-        android:minHeight="48dp" />
+        android:entries="@array/time_of_day_array"
+        android:minHeight="48dp"
+        android:spinnerMode="dropdown" />
 
-    <!-- Input for Morning Medication -->
-    <EditText
-        android:id="@+id/etMorningMedication"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Morning Medication (Units)"
-        android:inputType="number"
-        android:minHeight="48dp" />
-
-    <!-- Input for Afternoon Medication -->
-    <EditText
-        android:id="@+id/etAfternoonMedication"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Afternoon Medication (Units)"
-        android:inputType="number"
-        android:minHeight="48dp" />
-
-    <!-- Input for Evening Medication -->
-    <EditText
-        android:id="@+id/etEveningMedication"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Evening Medication (Units)"
-        android:inputType="number"
-        android:minHeight="48dp" />
-
-    <!-- Button to Add Entry -->
+    <!-- Button to proceed -->
     <Button
-        android:id="@+id/btnAddEntry"
+        android:id="@+id/btnProceed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add Entry" />
-
-    <!-- RecyclerView for Logbook -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvLogbook"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp" />
-
-    <!-- Button to go to Records -->
-    <Button
-        android:id="@+id/btnGoToRecords"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Go to Records" />
-
+        android:text="Proceed" />
 </LinearLayout>

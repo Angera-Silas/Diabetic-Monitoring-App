@@ -1,34 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="16dp">
 
     <TextView
         android:id="@+id/tvBloodSugar"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Blood Sugar Level"
-        android:textStyle="bold" />
+        android:text="Blood Sugar: 0 mg/dL"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvMorningMedication"
-        android:layout_width="wrap_content"
+        android:id="@+id/tvMedication"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Morning Medication" />
+        android:text="Medication: N/A"
+        android:textSize="16sp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/tvBloodSugar"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/tvAfternoonMedication"
-        android:layout_width="wrap_content"
+        android:id="@+id/tvTimeOfDay"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Afternoon Medication" />
+        android:text="Time: Morning"
+        android:textSize="16sp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/tvMedication"
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/tvEveningMedication"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Evening Medication" />
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

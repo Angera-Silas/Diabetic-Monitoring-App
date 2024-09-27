@@ -22,4 +22,11 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="title_activity_admin_dashboard">AdminDashboard</string>
+    <string-array name="time_of_day_array">
+        <item>Morning</item>
+        <item>Afternoon</item>
+        <item>Evening</item>
+    </string-array>
+
+
 </resources>

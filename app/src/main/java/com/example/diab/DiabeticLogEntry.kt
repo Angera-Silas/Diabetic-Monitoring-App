@@ -1,92 +1,38 @@
-package com.example.diab
+package com.example.diab// Replace with your actual package name
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ArrayAdapter
 import android.widget.Button
-import android.widget.EditText
+import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 
 class DiabeticLogEntry : AppCompatActivity() {
 
-    private lateinit var etBloodSugar: EditText
-    private lateinit var etMorningMedication: EditText
-    private lateinit var etAfternoonMedication: EditText
-    private lateinit var etEveningMedication: EditText
-    private lateinit var btnAddEntry: Button
-    private lateinit var rvLogbook: RecyclerView
-    private lateinit var btnGoToRecords: Button
-
-    private val logEntries = mutableListOf<LogEntry>()
-    private lateinit var logbookAdapter: LogbookAdapter
-
-    // Initialize Firestore instance
-    private val db = FirebaseFirestore.getInstance()
-
-    // Get the current user ID
-    private val userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+    private lateinit var spinnerTimeOfDay: Spinner
+    private lateinit var btnProceed: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main2)
+        setContentView(R.layout.activity_diabetic_log_entry)
 
         // Initialize UI elements
-        etBloodSugar = findViewById(R.id.etBloodSugar)
-        etMorningMedication = findViewById(R.id.etMorningMedication)
-        etAfternoonMedication = findViewById(R.id.etAfternoonMedication)
-        etEveningMedication = findViewById(R.id.etEveningMedication)
-        btnAddEntry = findViewById(R.id.btnAddEntry)
-        rvLogbook = findViewById(R.id.rvLogbook)
-        btnGoToRecords = findViewById(R.id.btnGoToRecords)
+        spinnerTimeOfDay = findViewById(R.id.spinnerTimeOfDay)
+        btnProceed = findViewById(R.id.btnProceed)
 
-        // Initialize the RecyclerView and Adapter
-        logbookAdapter = LogbookAdapter(logEntries)
-        rvLogbook.layoutManager = LinearLayoutManager(this)
-        rvLogbook.adapter = logbookAdapter
+        // Set up the spinner with options
+        val timeOfDayOptions = arrayOf("Morning", "Afternoon", "Evening")
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, timeOfDayOptions)
+        spinnerTimeOfDay.adapter = adapter
 
-        // Add entry on button click
-        btnAddEntry.setOnClickListener {
-            val bloodSugar = etBloodSugar.text.toString().toIntOrNull() ?: 0
-            val morningMed = etMorningMedication.text.toString().toIntOrNull() ?: 0
-            val afternoonMed = etAfternoonMedication.text.toString().toIntOrNull() ?: 0
-            val eveningMed = etEveningMedication.text.toString().toIntOrNull() ?: 0
+        // Set listener for Proceed button
+        btnProceed.setOnClickListener {
+            val selectedTimeOfDay = spinnerTimeOfDay.selectedItem.toString()
 
-            // Add new log entry with userId
-            val newEntry = LogEntry(
-                userId = userId, // Include userId here
-                bloodSugar = bloodSugar,
-                morningMedication = morningMed,
-                afternoonMedication = afternoonMed,
-                eveningMedication = eveningMed
-            )
-            logEntries.add(newEntry)
-            logbookAdapter.notifyDataSetChanged()  // Update the RecyclerView
-
-            // Send the new entry to Firestore
-            saveToFirestore(newEntry)
-        }
-
-        // Navigate to Records activity on button click
-        btnGoToRecords.setOnClickListener {
-            val intent = Intent(this, PRecords::class.java)
+            // Navigate to the glucose entry page with the selected time
+            val intent = Intent(this, GlucoseEntryActivity::class.java)
+            intent.putExtra("TIME_OF_DAY", selectedTimeOfDay)
             startActivity(intent)
         }
-    }
-
-    // Function to save log entry to Firestore
-    private fun saveToFirestore(entry: LogEntry) {
-        db.collection("logEntries")
-            .add(entry)
-            .addOnSuccessListener {
-                // Success message
-                println("Entry successfully added to Firestore!")
-            }
-            .addOnFailureListener { e ->
-                // Error handling
-                println("Error adding entry: $e")
-            }
     }
 }
