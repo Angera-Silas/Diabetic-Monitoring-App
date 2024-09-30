@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="buttonSignIn" type="id">@+id/buttonSignIn</item>
+    <item name="emailField" type="id">@+id/emailField</item>
+    <item name="passwordField" type="id">@+id/passwordField</item>
+    <item name="signInButton" type="id">@+id/signInButton</item>
+</resources>
