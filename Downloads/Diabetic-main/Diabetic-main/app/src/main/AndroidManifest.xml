@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Diab"
         tools:targetApi="31">
         <activity
+            android:name=".DiabeticLogEntry"
+            android:exported="false" />
+        <activity
             android:name=".DisplayReports"
             android:exported="false" />
         <activity
@@ -76,7 +79,7 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".DiabeticLogEntry"
+            android:name=".Appointment"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
