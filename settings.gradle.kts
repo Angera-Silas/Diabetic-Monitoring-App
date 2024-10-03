@@ -5,13 +5,19 @@ pluginManagement {
                 includeGroupByRegex("com\\.android.*")
                 includeGroupByRegex("com\\.google.*")
                 includeGroupByRegex("androidx.*")
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> f62f972d3243ae3a06a84796ac99140333b80c9e
             }
         }
         mavenCentral()
         gradlePluginPortal()
+<<<<<<< HEAD
 
+=======
+>>>>>>> f62f972d3243ae3a06a84796ac99140333b80c9e
     }
 }
 dependencyResolutionManagement {

@@ -10,4 +10,10 @@
     <color name="custom_blue">#0000FF</color>
     <color name="light_blue"> #ADD8E6</color>
     <color name="pastel_blue">#A7C7E7</color>
+<<<<<<< HEAD
+=======
+    <color name="baby_blue">#00b4d8</color>
+    <color name="biege">#3e92cc</color>
+    <color name="maroon">#d8315b</color>
+>>>>>>> f62f972d3243ae3a06a84796ac99140333b80c9e
 </resources>

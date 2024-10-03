@@ -27,8 +27,6 @@ class GlucoseEntryActivity : AppCompatActivity() {
     private lateinit var etMeal: EditText
     private lateinit var etExercise: EditText
     private lateinit var btnAddEntry: Button
-    private lateinit var timeOfDay: String
-    private lateinit var firestore: FirebaseFirestore
     private lateinit var rgMealTiming: RadioGroup
     private lateinit var rbBeforeEating: RadioButton
     private lateinit var rbAfterEating: RadioButton
@@ -36,6 +34,8 @@ class GlucoseEntryActivity : AppCompatActivity() {
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var navigationView: NavigationView
     private lateinit var mAuth: FirebaseAuth
+    private lateinit var firestore: FirebaseFirestore
+    private lateinit var timeOfDay: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,12 +54,8 @@ class GlucoseEntryActivity : AppCompatActivity() {
         navigationView = findViewById(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.nav_home -> {
-                    startActivity(Intent(this, GlucoseChartActivity::class.java))
-                }
-                R.id.nav_medication -> {
-                    startActivity(Intent(this, ReportsActivity::class.java))
-                }
+                R.id.nav_home -> startActivity(Intent(this, GlucoseChartActivity::class.java))
+                R.id.nav_medication -> startActivity(Intent(this, ReportsActivity::class.java))
                 // Add more cases for additional navigation items
             }
             drawerLayout.closeDrawer(GravityCompat.START)
@@ -99,11 +95,7 @@ class GlucoseEntryActivity : AppCompatActivity() {
 
         // RadioGroup listener
         rgMealTiming.setOnCheckedChangeListener { _, checkedId ->
-            if (checkedId == R.id.rbBeforeEating) {
-                etMeal.visibility = View.GONE // Hide meal input
-            } else if (checkedId == R.id.rbAfterEating) {
-                etMeal.visibility = View.VISIBLE // Show meal input
-            }
+            etMeal.visibility = if (checkedId == R.id.rbAfterEating) View.VISIBLE else View.GONE
         }
 
         // Save button listener
@@ -128,13 +120,10 @@ class GlucoseEntryActivity : AppCompatActivity() {
     }
 
     private fun saveEntry(bloodSugar: Int, medication: String, meal: String, exercise: String) {
-        // Get the current user's UID
         val userId = mAuth.currentUser?.uid
-
-        // Check if userId is not null
         if (userId != null) {
             val entryData = hashMapOf(
-                "userId" to userId, // Save the user ID along with the entry
+                "userId" to userId,
                 "bloodSugar" to bloodSugar,
                 "medication" to medication,
                 "meal" to meal,
@@ -143,9 +132,8 @@ class GlucoseEntryActivity : AppCompatActivity() {
                 "timestamp" to FieldValue.serverTimestamp()
             )
 
-            // Save entry to Firestore under the user's document
             firestore.collection("users").document(userId)
-                .collection("glucose_entries") // Use a sub-collection for entries
+                .collection("glucose_entries")
                 .add(entryData)
                 .addOnSuccessListener {
                     Toast.makeText(this, "Entry saved successfully", Toast.LENGTH_SHORT).show()
@@ -159,14 +147,14 @@ class GlucoseEntryActivity : AppCompatActivity() {
     }
 
     private fun navigateToReports() {
-        val intent = Intent(this, ReportsActivity::class.java)
-        startActivity(intent)
+        startActivity(Intent(this, ReportsActivity::class.java))
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (toggle.onOptionsItemSelected(item)) {
-            return true
+        return if (toggle.onOptionsItemSelected(item)) {
+            true
+        } else {
+            super.onOptionsItemSelected(item)
         }
-        return super.onOptionsItemSelected(item)
     }
 }

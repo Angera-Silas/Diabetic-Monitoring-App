@@ -8,7 +8,11 @@
 
 
     <EditText
+<<<<<<< HEAD
         android:id="@+id/editTextName"
+=======
+        android:id="@+id/name"
+>>>>>>> f62f972d3243ae3a06a84796ac99140333b80c9e
         android:layout_width="356dp"
         android:layout_height="78dp"
         android:layout_marginTop="248dp"
@@ -31,7 +35,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.582"
         app:layout_constraintStart_toStartOf="parent"
+<<<<<<< HEAD
         app:layout_constraintTop_toBottomOf="@id/editTextName" />
+=======
+        app:layout_constraintTop_toBottomOf="@id/name" />
+>>>>>>> f62f972d3243ae3a06a84796ac99140333b80c9e
 
     <EditText
         android:id="@+id/password"
@@ -80,6 +88,7 @@
         android:textSize="40sp"
         android:textAlignment="center"
         android:textColor="@color/black"
+<<<<<<< HEAD
         app:layout_constraintBottom_toTopOf="@+id/editTextName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -91,4 +100,10 @@
         android:visibility="gone"
         android:layout_gravity="center"/>
 
+=======
+        app:layout_constraintBottom_toTopOf="@+id/name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+>>>>>>> f62f972d3243ae3a06a84796ac99140333b80c9e
 </androidx.constraintlayout.widget.ConstraintLayout>

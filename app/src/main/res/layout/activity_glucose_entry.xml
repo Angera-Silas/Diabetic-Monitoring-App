@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawer_layout"
@@ -84,3 +85,32 @@
         app:menu="@menu/activity_main_drawer" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
+=======
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/etBloodSugar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Blood Sugar Level (mg/dL)"
+        android:inputType="number"
+        android:minHeight="48dp" />
+
+    <EditText
+        android:id="@+id/etMedication"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Medication"
+        android:minHeight="48dp" />
+
+    <Button
+        android:id="@+id/btnAddEntry"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Entry" />
+</LinearLayout>
+>>>>>>> f62f972d3243ae3a06a84796ac99140333b80c9e

@@ -3,7 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
+<<<<<<< HEAD
     android:background="@drawable/blue_gradient"
+=======
+>>>>>>> f62f972d3243ae3a06a84796ac99140333b80c9e
     tools:ignore="SpeakableTextPresentCheck">
 
     <LinearLayout

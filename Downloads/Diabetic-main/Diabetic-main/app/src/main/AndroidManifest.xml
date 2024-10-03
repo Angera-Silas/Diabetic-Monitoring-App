@@ -15,6 +15,12 @@
         android:theme="@style/Theme.Diab"
         tools:targetApi="31">
         <activity
+<<<<<<< HEAD
+=======
+            android:name=".DiabeticLogEntry"
+            android:exported="false" />
+        <activity
+>>>>>>> f62f972d3243ae3a06a84796ac99140333b80c9e
             android:name=".DisplayReports"
             android:exported="false" />
         <activity
@@ -76,7 +82,11 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
+<<<<<<< HEAD
             android:name=".DiabeticLogEntry"
+=======
+            android:name=".Appointment"
+>>>>>>> f62f972d3243ae3a06a84796ac99140333b80c9e
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
