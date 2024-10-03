@@ -1,0 +1,86 @@
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/blue_gradient">
+
+    <!-- Main Content (Glucose Entry Form) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <!-- Blood Sugar Input -->
+        <EditText
+            android:id="@+id/etBloodSugar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Blood Sugar Level (mg/dL)"
+            android:inputType="number"
+            android:minHeight="48dp" />
+
+        <!-- Medication Input -->
+        <EditText
+            android:id="@+id/etMedication"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Medication"
+            android:minHeight="48dp" />
+
+        <!-- Meal Timing Selection -->
+        <RadioGroup
+            android:id="@+id/rgMealTiming"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rbBeforeEating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Before Eating" />
+
+            <RadioButton
+                android:id="@+id/rbAfterEating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="After Eating" />
+        </RadioGroup>
+
+        <!-- Meal Input (visible only if After Eating is selected) -->
+        <EditText
+            android:id="@+id/etMeal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Meal Type (e.g., Breakfast, Lunch)"
+            android:minHeight="48dp"
+            android:visibility="gone" /> <!-- Initially hidden -->
+
+        <!-- Exercise Input -->
+        <EditText
+            android:id="@+id/etExercise"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Exercise (e.g., Walking, Running)"
+            android:minHeight="48dp" />
+
+        <!-- Add Entry Button -->
+        <Button
+            android:id="@+id/btnAddEntry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Entry" />
+
+    </LinearLayout>
+
+    <!-- Navigation Drawer -->
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:menu="@menu/activity_main_drawer" />
+
+</androidx.drawerlayout.widget.DrawerLayout>
