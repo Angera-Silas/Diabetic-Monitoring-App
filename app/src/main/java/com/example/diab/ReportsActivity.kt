@@ -1,30 +1,20 @@
 package com.example.diab
 
-<<<<<<< HEAD
-=======
 import android.content.Context
->>>>>>> f62f972d3243ae3a06a84796ac99140333b80c9e
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-<<<<<<< HEAD
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-=======
-import androidx.appcompat.app.AppCompatActivity
->>>>>>> f62f972d3243ae3a06a84796ac99140333b80c9e
 
 class ReportsActivity : AppCompatActivity() {
 
     private lateinit var reportContainer: LinearLayout
-<<<<<<< HEAD
     private lateinit var firestore: FirebaseFirestore
-=======
->>>>>>> f62f972d3243ae3a06a84796ac99140333b80c9e
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,12 +23,14 @@ class ReportsActivity : AppCompatActivity() {
         // Initialize the report container
         reportContainer = findViewById(R.id.reportContainer)
 
-<<<<<<< HEAD
         // Initialize Firestore
         firestore = Firebase.firestore
 
         // Fetch data from Firestore
         fetchBloodSugarData()
+
+        // Retrieve data from SharedPreferences
+        retrieveSharedPreferencesData()
     }
 
     private fun fetchBloodSugarData() {
@@ -52,10 +44,10 @@ class ReportsActivity : AppCompatActivity() {
 
                     // Decide the icon based on time of day
                     val iconResId = when (timeOfDay) {
-                        "Morning" -> R.drawable.cup_of_tea // Replace with your morning icon
-                        "Afternoon" -> R.drawable.plate // Replace with your afternoon icon
-                        "Evening" -> R.drawable.supper // Replace with your evening icon
-                        else -> R.drawable.cup_of_tea // Default icon for other times
+                        "Morning" -> R.drawable.cup_of_tea
+                        "Afternoon" -> R.drawable.plate
+                        "Evening" -> R.drawable.supper
+                        else -> R.drawable.cup_of_tea
                     }
 
                     // Add log entries to the report
@@ -67,10 +59,7 @@ class ReportsActivity : AppCompatActivity() {
             }
     }
 
-    private fun addLogToReport(bloodSugar: Int, medication: String, iconResId: Int) {
-        // Inflate the log entry layout
-=======
-        // Retrieve data from SharedPreferences
+    private fun retrieveSharedPreferencesData() {
         val sharedPref = getSharedPreferences("DiabetesLog", Context.MODE_PRIVATE)
         val morningBloodSugar = sharedPref.getInt("Morning_bloodSugar", -1)
         val morningMedication = sharedPref.getString("Morning_medication", "")
@@ -79,20 +68,19 @@ class ReportsActivity : AppCompatActivity() {
         val eveningBloodSugar = sharedPref.getInt("Evening_bloodSugar", -1)
         val eveningMedication = sharedPref.getString("Evening_medication", "")
 
-        // Add log entries to the report
+        // Add log entries to the report from SharedPreferences
         if (morningBloodSugar != -1) {
-            addLogToReport(morningBloodSugar, morningMedication ?: "", R.drawable.cup_of_tea) // Replace with your morning icon
+            addLogToReport(morningBloodSugar, morningMedication ?: "", R.drawable.cup_of_tea)
         }
         if (afternoonBloodSugar != -1) {
-            addLogToReport(afternoonBloodSugar, afternoonMedication ?: "", R.drawable.plate) // Replace with your afternoon icon
+            addLogToReport(afternoonBloodSugar, afternoonMedication ?: "", R.drawable.plate)
         }
         if (eveningBloodSugar != -1) {
-            addLogToReport(eveningBloodSugar, eveningMedication ?: "", R.drawable.supper) // Replace with your evening icon
+            addLogToReport(eveningBloodSugar, eveningMedication ?: "", R.drawable.supper)
         }
     }
 
     private fun addLogToReport(bloodSugar: Int, medication: String, iconResId: Int) {
->>>>>>> f62f972d3243ae3a06a84796ac99140333b80c9e
         val view = layoutInflater.inflate(R.layout.item_report, reportContainer, false)
 
         val tvBloodSugar: TextView = view.findViewById(R.id.tvBloodSugar)

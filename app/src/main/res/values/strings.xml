@@ -22,16 +22,21 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="title_activity_admin_dashboard">AdminDashboard</string>
-<<<<<<< HEAD
     <string name="Open">open</string>
     <string name="Close">close\n</string>
-=======
->>>>>>> f62f972d3243ae3a06a84796ac99140333b80c9e
+
     <string-array name="time_of_day_array">
         <item>Morning</item>
         <item>Afternoon</item>
         <item>Evening</item>
     </string-array>
+
+    <string name="Patients">Patients</string>
+    <string name="Reports">Reports</string>
+    <string name="Chat">Chat</string>
+    <string name="Appointment">Appointment</string>
+    <string name="patients">Patients</string>
+    <string name="appointment">Appointment</string>
 
 
 </resources>

@@ -27,12 +27,9 @@ class PastGlucoseChartActivity : AppCompatActivity() {
         setContentView(R.layout.activity_past_glucose_chart)
 
         graph = findViewById(R.id.graph)
-        goto = findViewById(R.id.gotoentry)
         firestore = Firebase.firestore
 
-        goto.setOnClickListener {
-            startActivity(Intent(this, GlucoseEntryActivity::class.java))
-        }
+
 
         // Fetch data from Firestore for past days
         fetchPastBloodSugarData()

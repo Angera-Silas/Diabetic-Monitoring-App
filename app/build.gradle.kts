@@ -4,11 +4,6 @@ plugins {
     alias(libs.plugins.google.gms.google.services)
 }
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> f62f972d3243ae3a06a84796ac99140333b80c9e
 android {
     namespace = "com.example.diab"
     compileSdk = 34
@@ -45,10 +40,7 @@ android {
 }
 
 dependencies {
-<<<<<<< HEAD
-=======
 
->>>>>>> f62f972d3243ae3a06a84796ac99140333b80c9e
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -61,7 +53,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.firebase.auth)
-<<<<<<< HEAD
 
     // GraphView Library
     implementation("com.jjoe64:graphview:4.2.2")
@@ -70,9 +61,3 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
-=======
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-}
->>>>>>> f62f972d3243ae3a06a84796ac99140333b80c9e

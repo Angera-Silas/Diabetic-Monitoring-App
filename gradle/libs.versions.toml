@@ -16,12 +16,7 @@ googleGmsGoogleServices = "4.4.2"
 firebaseFirestore = "25.1.0"
 lifecycleLivedataKtx = "2.8.6"
 lifecycleViewmodelKtx = "2.8.6"
-<<<<<<< HEAD
-firebaseAuth = "22.1.1"  # Updated to the latest stable version
-
-=======
-firebaseAuth = "23.0.0"  # Make sure this version is correct
->>>>>>> f62f972d3243ae3a06a84796ac99140333b80c9e
+firebaseAuth = "23.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }

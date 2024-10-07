@@ -22,11 +22,12 @@
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/gotoentry"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Go to Glucose Entry"
+            android:text="past month daily records Entry"
+            android:textSize="25sp"
+            android:textColor="@color/white"
             android:layout_gravity="center"
             android:layout_marginTop="16dp"/>
     </LinearLayout>

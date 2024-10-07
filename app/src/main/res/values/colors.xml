@@ -10,4 +10,10 @@
     <color name="custom_blue">#0000FF</color>
     <color name="light_blue"> #ADD8E6</color>
     <color name="pastel_blue">#A7C7E7</color>
+
+
+    <color name="colorGray">#504C4C</color>
+
+    <color name="green">#00FF00</color>
+
 </resources>

@@ -1,25 +1,9 @@
 package com.example.diab
 
-<<<<<<< HEAD
-import android.os.Bundle
-import android.view.View
-import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.auth.FirebaseAuth
-
-class SignPatient : AppCompatActivity() {
-
-    private lateinit var editTextName: EditText
-    private lateinit var editTextEmail: EditText
-    private lateinit var editTextPassword: EditText
-    private lateinit var editTextPhoneNumber: EditText
-    private lateinit var progressBar: ProgressBar
-    private lateinit var mAuth: FirebaseAuth
-
-=======
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Patterns
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -27,54 +11,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.auth.FirebaseAuth
-import android.util.Patterns
 
 class SignPatient : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
 
     @SuppressLint("MissingInflatedId")
->>>>>>> f62f972d3243ae3a06a84796ac99140333b80c9e
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_patient)
 
-<<<<<<< HEAD
-        // Initialize views
-        editTextName = findViewById(R.id.editTextName)
-        editTextEmail = findViewById(R.id.email)
-        editTextPassword = findViewById(R.id.password)
-        editTextPhoneNumber = findViewById(R.id.phone_number)
-        progressBar = findViewById(R.id.progressBar)
-
-        mAuth = FirebaseAuth.getInstance()
-
-        findViewById<Button>(R.id.login_button).setOnClickListener { registerUser() }
-    }
-
-    private fun registerUser() {
-        val name = editTextName.text.toString().trim()
-        val email = editTextEmail.text.toString().trim()
-        val password = editTextPassword.text.toString().trim()
-        val phoneNumber = editTextPhoneNumber.text.toString().trim()
-
-        if (name.isEmpty() || email.isEmpty() || password.isEmpty() || phoneNumber.isEmpty()) {
-            Toast.makeText(this, "All fields are required", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        progressBar.visibility = View.VISIBLE
-
-        // Create user with email and password
-        mAuth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                progressBar.visibility = View.GONE
-                if (task.isSuccessful) {
-                    Toast.makeText(this, "Registration successful", Toast.LENGTH_SHORT).show()
-                    // Optionally, navigate to another activity or store additional user information (e.g., name, phone number)
-                } else {
-                    Toast.makeText(this, task.exception?.localizedMessage ?: "Registration failed", Toast.LENGTH_SHORT).show()
-=======
         // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance()
 
@@ -142,8 +88,6 @@ class SignPatient : AppCompatActivity() {
     }
 
     // Function to handle user sign-up with Firebase
-
-    // Function to handle user sign-up with Firebase and navigate to login
     private fun signUpUser(email: String, password: String, phoneNumber: String) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
@@ -158,7 +102,6 @@ class SignPatient : AppCompatActivity() {
                 } else {
                     // Registration failed
                     Toast.makeText(this, "Registration failed: ${task.exception?.message}", Toast.LENGTH_LONG).show()
->>>>>>> f62f972d3243ae3a06a84796ac99140333b80c9e
                 }
             }
     }

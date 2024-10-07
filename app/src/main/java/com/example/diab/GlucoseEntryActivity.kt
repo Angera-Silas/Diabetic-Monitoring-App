@@ -132,7 +132,7 @@ class GlucoseEntryActivity : AppCompatActivity() {
                 "timestamp" to FieldValue.serverTimestamp()
             )
 
-            firestore.collection("users").document(userId)
+            firestore
                 .collection("glucose_entries")
                 .add(entryData)
                 .addOnSuccessListener {

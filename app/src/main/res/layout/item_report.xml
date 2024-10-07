@@ -2,24 +2,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-<<<<<<< HEAD
     android:background="@drawable/rounded_corners"
     android:layout_margin="8dp"
     android:elevation="4dp"
-=======
->>>>>>> f62f972d3243ae3a06a84796ac99140333b80c9e
     android:padding="16dp">
 
     <ImageView
         android:id="@+id/ivTimeIcon"
         android:layout_width="50dp"
         android:layout_height="50dp"
-<<<<<<< HEAD
         android:layout_marginEnd="16dp"
-        android:padding="8dp"/>
-=======
-        android:layout_marginEnd="16dp" />
->>>>>>> f62f972d3243ae3a06a84796ac99140333b80c9e
+        android:padding="8dp" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -31,10 +24,7 @@
             android:id="@+id/tvBloodSugar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-<<<<<<< HEAD
             android:layout_marginBottom="4dp"
-=======
->>>>>>> f62f972d3243ae3a06a84796ac99140333b80c9e
             android:text="Blood Sugar: --" />
 
         <TextView
