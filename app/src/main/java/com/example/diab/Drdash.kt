@@ -49,7 +49,7 @@ class Drdash : AppCompatActivity() {
         appointmentCountTextView = findViewById(R.id.appointmentCountTextView)
 
         findViewById<CardView>(R.id.cardPatients).setOnClickListener {
-            val intent = Intent(this, PastGlucoseChartActivity::class.java).apply {
+            val intent = Intent(this, PatientDetailActivity::class.java).apply {
                 putExtra("patientId", receiverId)
             }
             startActivity(intent)
@@ -93,7 +93,7 @@ class Drdash : AppCompatActivity() {
             val notificationIcon = cardAppointmentLayout.findViewWithTag<ImageView>("notificationIcon")
             notificationIcon?.let { cardAppointmentLayout.removeView(it) }
 
-            val intent = Intent(this, AppointmentActivity::class.java).apply {
+            val intent = Intent(this, BookedAppointmentsActivity::class.java).apply {
                 putExtra("patientId", receiverId)
             }
             startActivity(intent)

@@ -15,6 +15,30 @@
         android:theme="@style/Theme.Diab"
         tools:targetApi="31">
         <activity
+            android:name=".ViewPatientActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AppointmentListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AdminDash"
+            android:exported="false" />
+        <activity
+            android:name=".BookedAppointmentsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PatientDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GlucoseChartMedicationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GlucoseChartFoodActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UserDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".DoctorListActivity"
             android:exported="false" />
         <activity

@@ -19,18 +19,46 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical">
-
         <TextView
             android:id="@+id/tvBloodSugar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:text="Blood Sugar: --" />
+            android:text="Blood Sugar: 100"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvExercise"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:text="Exercise: None" />
+
+        <TextView
+            android:id="@+id/tvMeal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:text="Meal: Bread" />
 
         <TextView
             android:id="@+id/tvMedication"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Medication: --" />
+            android:layout_marginBottom="4dp"
+            android:text="Medication: None" />
+
+        <TextView
+            android:id="@+id/tvTimeOfDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:text="Time of Day: Evening" />
+
+        <TextView
+            android:id="@+id/tvTimestamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Timestamp: October 20, 2024 at 8:03:45 PM UTC+3" />
     </LinearLayout>
 </LinearLayout>

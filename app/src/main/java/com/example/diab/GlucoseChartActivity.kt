@@ -19,6 +19,7 @@ import com.jjoe64.graphview.DefaultLabelFormatter
 import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.ActionBarDrawerToggle
+import com.google.firebase.auth.FirebaseAuth
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -41,12 +42,36 @@ class GlucoseChartActivity : AppCompatActivity() {
     private lateinit var dangerouslyHighIndicator: TextView
     private lateinit var gotoentry: Button
 
+    private lateinit var auth: FirebaseAuth
+    private lateinit var userId: String
+    private lateinit var commentTextView: TextView
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_glucose_chart)
+        firestore = Firebase.firestore
+
+
+
+
+        auth = FirebaseAuth.getInstance()
+        val currentUser = auth.currentUser
+
+        // Check if the user is logged in
+        if (currentUser != null) {
+            userId = currentUser.uid
+            fetchComment()
+
+        } else {
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
+            finish() // Close activity if no user is logged in
+        }
 
         graph = findViewById(R.id.graph)
-        firestore = Firebase.firestore
+        commentTextView = findViewById(R.id.commentTextView)
+
 
         // Initialize indicators
         dangerouslyLowIndicator = findViewById(R.id.indicator_dangerously_low)
@@ -79,12 +104,14 @@ class GlucoseChartActivity : AppCompatActivity() {
                 }
                 R.id.nav_medication -> {
                     // Handle Medication Report action
-                    startActivity(Intent(this,PastGlucoseChartActivity::class.java))
+                    startActivity(Intent(this, BookedAppointmentsActivity::class.java))
 
                     Toast.makeText(this, "Medication Report selected", Toast.LENGTH_SHORT).show()
                 }
                 R.id.nav_appointment -> {
                     // Handle Appointment action
+                    startActivity(Intent(this, AppointmentActivity::class.java))
+
                     Toast.makeText(this, "Appointment selected", Toast.LENGTH_SHORT).show()
                 }
                 R.id.nav_chat -> {
@@ -110,9 +137,12 @@ class GlucoseChartActivity : AppCompatActivity() {
         fetchBloodSugarData()
     }
 
+
     private fun fetchBloodSugarData() {
         firestore.collection("glucose_entries")
-            .orderBy("timestamp") // Ensure entries are ordered by timestamp
+            .whereEqualTo("userId", userId)
+            .orderBy("userId")
+            .orderBy("timestamp")
             .get()
             .addOnSuccessListener { documents ->
                 val dataPoints = mutableListOf<DataPoint>()
@@ -122,15 +152,12 @@ class GlucoseChartActivity : AppCompatActivity() {
                     val bloodSugar = document.getDouble("bloodSugar")
                     val timestamp = document.getTimestamp("timestamp")
 
-                    Log.d("GlucoseChartActivity", "Document: $document")
-
                     if (bloodSugar != null && timestamp != null) {
                         val date = timestamp.toDate()
                         dataPoints.add(DataPoint(date.time.toDouble(), bloodSugar))
 
                         // Update latest blood sugar value
                         latestBloodSugar = bloodSugar
-                        Toast.makeText(this, "Fetched: Blood Sugar: $bloodSugar mg/dL at $date", Toast.LENGTH_SHORT).show()
                     }
                 }
 
@@ -146,6 +173,42 @@ class GlucoseChartActivity : AppCompatActivity() {
                 Toast.makeText(this, "Error fetching data: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
+
+    private fun fetchComment() {
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        val userId = currentUser?.uid ?: return // Ensure the user is authenticated
+
+        firestore.collection("doctor_comments")
+            .whereEqualTo("patientId", userId)  // Ensure this matches the field in your Firestore collection
+            .get()
+            .addOnSuccessListener { documents ->
+                if (!documents.isEmpty) {
+                    val document = documents.first()
+                    val comment = document.getString("comment")
+                    val riskLevel = document.getString("riskLevel") // Retrieve the risk level
+
+                    // Set the comment text
+                    commentTextView.text = comment ?: "No comment available"
+
+                    // Set background color based on risk level
+                    when (riskLevel) {
+                        "Normal" -> commentTextView.setBackgroundColor(Color.GREEN)
+                        "Risky" -> commentTextView.setBackgroundColor(Color.YELLOW)
+                        "Dangerous" -> commentTextView.setBackgroundColor(Color.RED)
+                        else -> commentTextView.setBackgroundColor(Color.TRANSPARENT) // Default if risk level is unknown
+                    }
+                } else {
+                    commentTextView.text = "No comment found"
+                    commentTextView.setBackgroundColor(Color.TRANSPARENT) // Reset color if no comment
+                }
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Error fetching comment: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+
+
 
     private fun updateIndicators(bloodSugar: Double) {
         // Reset indicators color

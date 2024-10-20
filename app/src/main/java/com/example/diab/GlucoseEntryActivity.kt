@@ -1,18 +1,12 @@
 package com.example.diab
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -28,8 +22,11 @@ class GlucoseEntryActivity : AppCompatActivity() {
     private lateinit var etExercise: EditText
     private lateinit var btnAddEntry: Button
     private lateinit var rgMealTiming: RadioGroup
+    private lateinit var rgMedicationTiming: RadioGroup
     private lateinit var rbBeforeEating: RadioButton
     private lateinit var rbAfterEating: RadioButton
+    private lateinit var rbBeforeMedication: RadioButton
+    private lateinit var rbAfterMedication: RadioButton
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var navigationView: NavigationView
@@ -41,27 +38,6 @@ class GlucoseEntryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_glucose_entry)
 
-        // Initialize DrawerLayout and ActionBarDrawerToggle
-        drawerLayout = findViewById(R.id.drawer_layout)
-        toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.Open, R.string.Close)
-        drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
-
-        // Show the hamburger icon
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        // Handle navigation item selection
-        navigationView = findViewById(R.id.nav_view)
-        navigationView.setNavigationItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.nav_home -> startActivity(Intent(this, GlucoseChartActivity::class.java))
-                R.id.nav_medication -> startActivity(Intent(this, ReportsActivity::class.java))
-                // Add more cases for additional navigation items
-            }
-            drawerLayout.closeDrawer(GravityCompat.START)
-            true
-        }
-
         // Initialize UI elements
         etBloodSugar = findViewById(R.id.etBloodSugar)
         etMedication = findViewById(R.id.etMedication)
@@ -69,14 +45,17 @@ class GlucoseEntryActivity : AppCompatActivity() {
         etExercise = findViewById(R.id.etExercise)
         btnAddEntry = findViewById(R.id.btnAddEntry)
         rgMealTiming = findViewById(R.id.rgMealTiming)
+        rgMedicationTiming = findViewById(R.id.rgMedicationTiming)
         rbBeforeEating = findViewById(R.id.rbBeforeEating)
         rbAfterEating = findViewById(R.id.rbAfterEating)
+        rbBeforeMedication = findViewById(R.id.rbBeforeMedication)
+        rbAfterMedication = findViewById(R.id.rbAfterMedication)
 
         // Initialize Firestore and Firebase Authentication
         firestore = FirebaseFirestore.getInstance()
         mAuth = FirebaseAuth.getInstance()
 
-        // Determine the current time of day
+        // Determine the time of day
         val currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
         timeOfDay = when (currentHour) {
             in 6..11 -> "Morning"
@@ -93,29 +72,47 @@ class GlucoseEntryActivity : AppCompatActivity() {
             else -> "Enter Night Medication"
         }
 
-        // RadioGroup listener
-        rgMealTiming.setOnCheckedChangeListener { _, checkedId ->
-            etMeal.visibility = if (checkedId == R.id.rbAfterEating) View.VISIBLE else View.GONE
+        // Handle RadioGroup interactions for medication timing
+        rgMedicationTiming.setOnCheckedChangeListener { _, checkedId ->
+            if (checkedId == R.id.rbAfterMedication) {
+                etMedication.visibility = View.VISIBLE
+            } else {
+                etMedication.visibility = View.GONE
+            }
         }
 
-        // Save button listener
+        // Handle RadioGroup interactions for meal timing
+        rgMealTiming.setOnCheckedChangeListener { _, checkedId ->
+            if (checkedId == R.id.rbAfterEating) {
+                etMeal.visibility = View.VISIBLE
+            } else {
+                etMeal.visibility = View.GONE
+            }
+        }
+
+        // Add Entry button logic
         btnAddEntry.setOnClickListener {
             val bloodSugar = etBloodSugar.text.toString().toIntOrNull()
-            val medication = etMedication.text.toString()
-            val meal = etMeal.text.toString()
+            val medication = if (rbAfterMedication.isChecked) etMedication.text.toString() else ""
+            val meal = if (rbAfterEating.isChecked) etMeal.text.toString() else ""
             val exercise = etExercise.text.toString()
+
+            if (bloodSugar == null) {
+                Toast.makeText(this, "Please enter your blood sugar level", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (rbAfterMedication.isChecked && medication.isBlank()) {
+                Toast.makeText(this, "Please enter the medication", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
             if (rbAfterEating.isChecked && meal.isBlank()) {
                 Toast.makeText(this, "Please enter the meal details", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            if (bloodSugar != null && medication.isNotBlank() && exercise.isNotBlank()) {
-                saveEntry(bloodSugar, medication, meal, exercise)
-                navigateToReports()
-            } else {
-                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
-            }
+            saveEntry(bloodSugar, medication, meal, exercise)
         }
     }
 
@@ -144,10 +141,6 @@ class GlucoseEntryActivity : AppCompatActivity() {
         } else {
             Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
         }
-    }
-
-    private fun navigateToReports() {
-        startActivity(Intent(this, ReportsActivity::class.java))
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

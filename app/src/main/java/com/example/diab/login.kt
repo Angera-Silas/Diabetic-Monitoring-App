@@ -49,13 +49,26 @@ class LoginActivity : AppCompatActivity() {
                                 firestore.collection("users").document(userId).get()
                                     .addOnSuccessListener { document ->
                                         val userType = document.getString("userType")
-                                        if (userType == "Doctor") {
-                                            // Navigate to Doctor Dashboard
-                                            startActivity(Intent(this, PatientListActivity::class.java))
-                                        } else if (userType == "Patient") {
-                                            // Navigate to Patient Chart
-                                            startActivity(Intent(this, GlucoseChartActivity::class.java))
+                                        when (userType) {
+                                            "Doctor" -> {
+                                                // Navigate to Doctor Dashboard
+                                                startActivity(Intent(this, PatientListActivity::class.java))
+                                            }
+                                            "Patient" -> {
+                                                // Navigate to Patient Chart
+                                                startActivity(Intent(this, GlucoseChartActivity::class.java))
+                                            }
+                                            "Admin" -> {
+                                                // Navigate to Admin Dashboard
+                                                startActivity(Intent(this, AdminDash::class.java))
+                                            }
+                                            else -> {
+                                                Toast.makeText(this, "Unknown user type", Toast.LENGTH_SHORT).show()
+                                            }
                                         }
+                                    }
+                                    .addOnFailureListener { exception ->
+                                        Toast.makeText(this, "Failed to fetch user data: ${exception.message}", Toast.LENGTH_SHORT).show()
                                     }
                             }
                         } else {

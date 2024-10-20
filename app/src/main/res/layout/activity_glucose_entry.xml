@@ -22,13 +22,34 @@
             android:inputType="number"
             android:minHeight="48dp" />
 
-        <!-- Medication Input -->
+        <!-- Medication Timing Selection -->
+        <RadioGroup
+            android:id="@+id/rgMedicationTiming"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rbBeforeMedication"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Before Medication" />
+
+            <RadioButton
+                android:id="@+id/rbAfterMedication"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="After Medication" />
+        </RadioGroup>
+
+        <!-- Medication Input (only visible if After Medication is selected) -->
         <EditText
             android:id="@+id/etMedication"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter Medication"
-            android:minHeight="48dp" />
+            android:minHeight="48dp"
+            android:visibility="gone" />
 
         <!-- Meal Timing Selection -->
         <RadioGroup
@@ -50,22 +71,23 @@
                 android:text="After Eating" />
         </RadioGroup>
 
-        <!-- Meal Input (visible only if After Eating is selected) -->
+        <!-- Meal Input (only visible if After Eating is selected) -->
         <EditText
             android:id="@+id/etMeal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter Meal Type (e.g., Breakfast, Lunch)"
             android:minHeight="48dp"
-            android:visibility="gone" /> <!-- Initially hidden -->
+            android:visibility="gone" />
 
-        <!-- Exercise Input -->
+        <!-- Exercise Input (visible only if the user did exercise) -->
         <EditText
             android:id="@+id/etExercise"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter Exercise (e.g., Walking, Running)"
-            android:minHeight="48dp" />
+            android:minHeight="48dp"
+            android:visibility="gone" />
 
         <!-- Add Entry Button -->
         <Button

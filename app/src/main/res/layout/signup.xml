@@ -12,7 +12,7 @@
         android:id="@+id/textView7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Patient/Doctor Registration"
+        android:text="Patient/Doctor/Admin Registration"
         android:fontFamily="cursive"
         android:textSize="40sp"
         android:textAlignment="center"
@@ -35,6 +35,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Doctor" />
+
+        <RadioButton
+            android:id="@+id/radio_admin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Admin" />
     </RadioGroup>
 
     <EditText
@@ -44,6 +50,8 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/rounded_textviewp"
         android:hint="Name"
+        android:gravity="center"
+
         android:inputType="textPersonName" />
 
     <EditText
@@ -53,25 +61,31 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/rounded_textviewp"
         android:hint="Email"
-        android:inputType="textEmailAddress" />
+        android:gravity="center"
 
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="match_parent"
-        android:layout_height="78dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/rounded_textviewp"
-        android:hint="Password"
-        android:inputType="textPassword" />
+        android:inputType="textEmailAddress" />
 
     <EditText
         android:id="@+id/phone_number"
         android:layout_width="match_parent"
+        android:gravity="center"
         android:layout_height="78dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/rounded_textviewp"
         android:hint="Phone Number"
         android:inputType="phone" />
+
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="78dp"
+        android:gravity="center"
+
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_textviewp"
+        android:hint="Password"
+        android:inputType="textPassword" />
 
     <Button
         android:id="@+id/signup_button"
@@ -87,6 +101,5 @@
         android:layout_height="wrap_content"
         android:visibility="gone"
         android:layout_gravity="center" />
-
 
 </LinearLayout>

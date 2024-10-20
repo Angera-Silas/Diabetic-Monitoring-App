@@ -55,7 +55,6 @@ class SignUpActivity : AppCompatActivity() {
                         progressBar.visibility = ProgressBar.GONE
                         if (task.isSuccessful) {
                             val userId = auth.currentUser?.uid // Get the Firebase user ID
-                            val aid = UUID.randomUUID().toString() // Generate a unique aid
                             if (userId != null) {
                                 // Save additional user info to Firestore
                                 val user = hashMapOf(
@@ -69,10 +68,10 @@ class SignUpActivity : AppCompatActivity() {
                                     .addOnSuccessListener {
                                         Toast.makeText(this, "Sign Up Successful!", Toast.LENGTH_SHORT).show()
                                         // Navigate based on user type
-                                        if (userType == "Doctor") {
-                                            startActivity(Intent(this, DoctorDash::class.java))
-                                        } else if (userType == "Patient") {
-                                            startActivity(Intent(this, GlucoseChartActivity::class.java))
+                                        when (userType) {
+                                            "Doctor" -> startActivity(Intent(this, DoctorDash::class.java))
+                                            "Patient" -> startActivity(Intent(this, GlucoseChartActivity::class.java))
+                                            "Admin" -> startActivity(Intent(this, AdminDashboard::class.java)) // Adjust this to your Admin dashboard
                                         }
                                     }
                             }
@@ -84,7 +83,6 @@ class SignUpActivity : AppCompatActivity() {
         }
 
         // Go to Login button click listener
-
     }
 
     private fun validateInput(name: String, email: String, password: String, phoneNumber: String): Boolean {
