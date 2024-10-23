@@ -141,36 +141,39 @@ class GlucoseChartActivity : AppCompatActivity() {
     private fun fetchBloodSugarData() {
         firestore.collection("glucose_entries")
             .whereEqualTo("userId", userId)
-            .orderBy("userId")
-            .orderBy("timestamp")
-            .get()
-            .addOnSuccessListener { documents ->
-                val dataPoints = mutableListOf<DataPoint>()
-                var latestBloodSugar: Double? = null // To keep track of the latest blood sugar value
+            .orderBy("timestamp") // Ensure proper ordering by timestamp
+            .addSnapshotListener { snapshots, e ->
+                if (e != null) {
+                    Log.w("GlucoseChartActivity", "Listen failed.", e)
+                    Toast.makeText(this, "Error fetching data: ${e.message}", Toast.LENGTH_SHORT).show()
+                    return@addSnapshotListener
+                }
 
-                for (document in documents) {
-                    val bloodSugar = document.getDouble("bloodSugar")
-                    val timestamp = document.getTimestamp("timestamp")
+                if (snapshots != null) {
+                    val dataPoints = mutableListOf<DataPoint>()
+                    var latestBloodSugar: Double? = null // To keep track of the latest blood sugar value
 
-                    if (bloodSugar != null && timestamp != null) {
-                        val date = timestamp.toDate()
-                        dataPoints.add(DataPoint(date.time.toDouble(), bloodSugar))
+                    for (document in snapshots) {
+                        val bloodSugar = document.getDouble("bloodSugar")
+                        val timestamp = document.getTimestamp("timestamp")
 
-                        // Update latest blood sugar value
-                        latestBloodSugar = bloodSugar
+                        if (bloodSugar != null && timestamp != null) {
+                            val date = timestamp.toDate()
+                            dataPoints.add(DataPoint(date.time.toDouble(), bloodSugar))
+
+                            // Update latest blood sugar value
+                            latestBloodSugar = bloodSugar
+                        }
+                    }
+
+                    // Update the graph with fetched data
+                    updateGraph(dataPoints)
+
+                    // Update indicators based on the latest blood sugar value
+                    if (latestBloodSugar != null) {
+                        updateIndicators(latestBloodSugar)
                     }
                 }
-
-                // Update the graph with fetched data
-                updateGraph(dataPoints)
-
-                // Update indicators based on the latest blood sugar value
-                if (latestBloodSugar != null) {
-                    updateIndicators(latestBloodSugar)
-                }
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(this, "Error fetching data: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
 
@@ -178,19 +181,34 @@ class GlucoseChartActivity : AppCompatActivity() {
         val currentUser = FirebaseAuth.getInstance().currentUser
         val userId = currentUser?.uid ?: return // Ensure the user is authenticated
 
+        // Listen for real-time updates
         firestore.collection("doctor_comments")
             .whereEqualTo("patientId", userId)  // Ensure this matches the field in your Firestore collection
-            .get()
-            .addOnSuccessListener { documents ->
-                if (!documents.isEmpty) {
-                    val document = documents.first()
+            .orderBy("timestamp", com.google.firebase.firestore.Query.Direction.DESCENDING) // Order by timestamp
+            .limit(1)  // Get the most recent comment
+            .addSnapshotListener { snapshots, e ->
+                if (e != null) {
+                    Log.e("GlucoseChartActivity", "Listen failed.", e)
+                    Toast.makeText(this, "Error fetching comment: ${e.message}", Toast.LENGTH_SHORT).show()
+                    return@addSnapshotListener
+                }
+
+                if (snapshots != null && !snapshots.isEmpty) {
+                    val document = snapshots.documents.first()
                     val comment = document.getString("comment")
                     val riskLevel = document.getString("riskLevel") // Retrieve the risk level
+
+                    // Log the fetched comment and risk level for debugging
+                    Log.d("GlucoseChartActivity", "Comment: $comment, Risk Level: $riskLevel")
 
                     // Set the comment text
                     commentTextView.text = comment ?: "No comment available"
 
-                    // Set background color based on risk level
+                    // Set background color and rounded corners based on risk level
+                    val backgroundDrawable = getDrawable(R.drawable.rounded_corner_background) // Default rounded background
+                    commentTextView.background = backgroundDrawable
+
+                    // Change the color within the drawable based on risk level
                     when (riskLevel) {
                         "Normal" -> commentTextView.setBackgroundColor(Color.GREEN)
                         "Risky" -> commentTextView.setBackgroundColor(Color.YELLOW)
@@ -202,13 +220,7 @@ class GlucoseChartActivity : AppCompatActivity() {
                     commentTextView.setBackgroundColor(Color.TRANSPARENT) // Reset color if no comment
                 }
             }
-            .addOnFailureListener { e ->
-                Toast.makeText(this, "Error fetching comment: ${e.message}", Toast.LENGTH_SHORT).show()
-            }
     }
-
-
-
 
     private fun updateIndicators(bloodSugar: Double) {
         // Reset indicators color

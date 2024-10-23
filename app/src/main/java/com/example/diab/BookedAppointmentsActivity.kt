@@ -43,14 +43,18 @@ class BookedAppointmentsActivity : AppCompatActivity() {
         // Use the patient ID if available, otherwise use current user ID
         val userId = patientId ?: auth.currentUser?.uid
 
-        if (userId == null) {
+        // Get the currently logged-in doctor's email
+        val currentDoctorEmail = auth.currentUser?.email
+
+        if (userId == null || currentDoctorEmail == null) {
             Toast.makeText(this, "User not authenticated", Toast.LENGTH_SHORT).show()
             return
         }
 
-        // Fetch appointments based on userId
+        // Fetch appointments based on userId and doctorEmail
         firestore.collection("appointments")
-            .whereEqualTo("userId", userId)
+            .whereEqualTo("userId", userId)  // Filter by patient ID
+            .whereEqualTo("doctorEmail", currentDoctorEmail)  // Filter by the logged-in doctor's email
             .get()
             .addOnSuccessListener { documents ->
                 if (!documents.isEmpty) {
@@ -68,4 +72,5 @@ class BookedAppointmentsActivity : AppCompatActivity() {
                 Toast.makeText(this, "Error fetching appointments: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
+
 }

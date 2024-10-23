@@ -50,75 +50,79 @@ class GlucoseChartFoodActivity : AppCompatActivity() {
         dataTextView = findViewById(R.id.dataTextView) // Initialize TextView
         firestore = Firebase.firestore
 
-        // Fetch data based on food input
-        fetchBloodSugarDataByFood()
+        // Listen for real-time updates
+        fetchBloodSugarDataByFoodRealTime()
     }
-    private fun fetchBloodSugarDataByFood() {
+
+    private fun fetchBloodSugarDataByFoodRealTime() {
         firestore.collection("glucose_entries")
             .whereEqualTo("userId", userId)
-            .orderBy("timestamp") // Removed meal filtering
-            .get()
-            .addOnSuccessListener { documents ->
-                val dataPoints = mutableListOf<DataPoint>()
-                val fetchedData = StringBuilder()
-                var totalBloodSugar = 0.0
-                var count = 0
+            .orderBy("timestamp")
+            .addSnapshotListener { snapshots, e ->
+                if (e != null) {
+                    Log.w("GlucoseChartFood", "Listen failed.", e)
+                    Toast.makeText(this, "Error fetching data: ${e.message}", Toast.LENGTH_SHORT).show()
+                    return@addSnapshotListener
+                }
 
-                for (document in documents) {
-                    val bloodSugar = document.getDouble("bloodSugar")
-                    val exercise = document.getString("exercise") ?: ""
-                    val meal = document.getString("meal") ?: ""
-                    val medication = document.getString("medication") ?: ""
-                    val timeOfDay = document.getString("timeOfDay") ?: ""
-                    val timestamp = document.getTimestamp("timestamp")
+                if (snapshots != null) {
+                    val dataPoints = mutableListOf<DataPoint>()
+                    val fetchedData = StringBuilder()
+                    var totalBloodSugar = 0.0
+                    var count = 0
 
-                    // Check if bloodSugar and timestamp are not null and meal is not empty
-                    if (bloodSugar != null && timestamp != null && meal.isNotEmpty()) {
-                        val date = timestamp.toDate()
-                        dataPoints.add(DataPoint(date.time.toDouble(), bloodSugar))
+                    for (document in snapshots) {
+                        val bloodSugar = document.getDouble("bloodSugar")
+                        val exercise = document.getString("exercise") ?: ""
+                        val meal = document.getString("meal") ?: ""
+                        val medication = document.getString("medication") ?: ""
+                        val timeOfDay = document.getString("timeOfDay") ?: ""
+                        val timestamp = document.getTimestamp("timestamp")
 
-                        // Append data to StringBuilder
-                        fetchedData.append("Date: ${date}, Blood Sugar: $bloodSugar mg/dL\n")
-                        fetchedData.append("Meal: $meal\n")
-                        fetchedData.append("Exercise: $exercise\n")
-                        fetchedData.append("Medication: $medication\n")
-                        fetchedData.append("Time of Day: $timeOfDay\n\n")
+                        // Check if bloodSugar and timestamp are not null and meal is not empty
+                        if (bloodSugar != null && timestamp != null && meal.isNotEmpty()) {
+                            val date = timestamp.toDate()
+                            dataPoints.add(DataPoint(date.time.toDouble(), bloodSugar))
 
-                        // Calculate total blood sugar for average
-                        totalBloodSugar += bloodSugar
-                        count++
-                    } else if (meal.isEmpty()) {
-                        Log.d("GlucoseChartFood", "Skipping document due to empty meal: ${document.id}")
-                    } else {
-                        Log.d("GlucoseChartFood", "Null values found in document: ${document.id}")
+                            // Append data to StringBuilder
+                            fetchedData.append("Date: ${date}, Blood Sugar: $bloodSugar mg/dL\n")
+                            fetchedData.append("Meal: $meal\n")
+                            fetchedData.append("Exercise: $exercise\n")
+                            fetchedData.append("Medication: $medication\n")
+                            fetchedData.append("Time of Day: $timeOfDay\n\n")
+
+                            // Calculate total blood sugar for average
+                            totalBloodSugar += bloodSugar
+                            count++
+                        } else if (meal.isEmpty()) {
+                            Log.d("GlucoseChartFood", "Skipping document due to empty meal: ${document.id}")
+                        } else {
+                            Log.d("GlucoseChartFood", "Null values found in document: ${document.id}")
+                        }
                     }
+
+                    // Log the fetched data for debugging
+                    Log.d("GlucoseChartFood", "Fetched data: $fetchedData")
+
+                    // Update the TextView with fetched data
+                    dataTextView.text = fetchedData.toString()
+
+                    // Show a toast message summarizing the fetched data
+                    if (count > 0) {
+                        val averageBloodSugar = totalBloodSugar / count
+                        Toast.makeText(
+                            this,
+                            "Fetched $count entries. Average Blood Sugar: ${averageBloodSugar} mg/dL",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    } else {
+                        Toast.makeText(this, "No data available for the selected criteria.", Toast.LENGTH_SHORT).show()
+                    }
+
+                    updateGraph(dataPoints) // Update the graph with the new data
                 }
-
-                // Log the fetched data for debugging
-                Log.d("GlucoseChartFood", "Fetched data: $fetchedData")
-
-                // Update the TextView with fetched data
-                dataTextView.text = fetchedData.toString()
-
-                // Show a toast message summarizing the fetched data
-                if (count > 0) {
-                    val averageBloodSugar = totalBloodSugar / count
-                    Toast.makeText(
-                        this,
-                        "Fetched $count entries. Average Blood Sugar: ${averageBloodSugar} mg/dL",
-                        Toast.LENGTH_LONG
-                    ).show()
-                } else {
-                    Toast.makeText(this, "No data available for the selected criteria.", Toast.LENGTH_SHORT).show()
-                }
-
-                updateGraph(dataPoints) // Move this outside the function
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(this, "Error fetching data: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
-
 
     private fun updateGraph(dataPoints: List<DataPoint>) {
         val series = LineGraphSeries(dataPoints.toTypedArray())

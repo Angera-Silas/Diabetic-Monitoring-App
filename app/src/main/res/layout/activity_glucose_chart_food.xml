@@ -22,14 +22,22 @@
             android:layout_width="match_parent"
             android:layout_height="400dp" />
 
-        <!-- TextView to display fetched data -->
-        <TextView
-            android:id="@+id/dataTextView"
+        <!-- Wrap the TextView inside a ScrollView -->
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:textSize="16sp"
-            android:textColor="@android:color/white" />
+            android:fillViewport="true">
+
+            <!-- TextView to display fetched data -->
+            <TextView
+                android:id="@+id/dataTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:textSize="16sp"
+                android:textColor="@android:color/white" />
+        </ScrollView>
+
     </LinearLayout>
 
 </androidx.drawerlayout.widget.DrawerLayout>
