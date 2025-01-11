@@ -1,15 +1,18 @@
 package com.example.diab
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
+import android.view.inputmethod.EditorInfo
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.example.diab.AdminDash
+import com.example.diab.GlucoseChartActivity
+import com.example.diab.PatientListActivity
+import com.example.diab.SignUpActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import java.util.Locale
 
 class LoginActivity : AppCompatActivity() {
 
@@ -21,20 +24,41 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        // Initialize Firebase Auth and Firestore
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
 
-        // Initialize UI elements
         val emailField: EditText = findViewById(R.id.email)
         val passwordField: EditText = findViewById(R.id.password)
         val loginButton: Button = findViewById(R.id.login_button)
         val goToSignupButton: TextView = findViewById(R.id.go_to_signup_button)
         progressBar = findViewById(R.id.progressBar)
 
-        // Login button click listener
+        // Move to the next input when "Enter" is pressed
+        emailField.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                if (isValidEmail(emailField.text.toString().toLowerCase(Locale.ROOT).trim())) {
+                    passwordField.requestFocus()
+                    true
+                } else {
+                    emailField.error = "Enter a valid email address"
+                    false
+                }
+            } else {
+                false
+            }
+        }
+
+        passwordField.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                loginButton.performClick() // Submit the form
+                true
+            } else {
+                false
+            }
+        }
+
         loginButton.setOnClickListener {
-            val email = emailField.text.toString().trim()
+            val email = emailField.text.toString().trim().toLowerCase(Locale.ROOT)
             val password = passwordField.text.toString().trim()
 
             if (email.isNotEmpty() && password.isNotEmpty()) {
@@ -43,28 +67,17 @@ class LoginActivity : AppCompatActivity() {
                     .addOnCompleteListener { task ->
                         progressBar.visibility = ProgressBar.GONE
                         if (task.isSuccessful) {
-                            // Fetch user type from Firestore
                             val userId = auth.currentUser?.uid
                             if (userId != null) {
                                 firestore.collection("users").document(userId).get()
                                     .addOnSuccessListener { document ->
                                         val userType = document.getString("userType")
-                                        when (userType) {
-                                            "Doctor" -> {
-                                                // Navigate to Doctor Dashboard
-                                                startActivity(Intent(this, PatientListActivity::class.java))
-                                            }
-                                            "Patient" -> {
-                                                // Navigate to Patient Chart
-                                                startActivity(Intent(this, GlucoseChartActivity::class.java))
-                                            }
-                                            "Admin" -> {
-                                                // Navigate to Admin Dashboard
-                                                startActivity(Intent(this, AdminDash::class.java))
-                                            }
-                                            else -> {
-                                                Toast.makeText(this, "Unknown user type", Toast.LENGTH_SHORT).show()
-                                            }
+                                        if (userType != null) {
+                                            // Save user details locally
+                                            saveUserDetails(email, userType)
+                                            navigateToDashboard(userType)
+                                        } else {
+                                            Toast.makeText(this, "Unknown user type", Toast.LENGTH_SHORT).show()
                                         }
                                     }
                                     .addOnFailureListener { exception ->
@@ -80,10 +93,30 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        // Go to Signup button click listener
         goToSignupButton.setOnClickListener {
-            val intent = Intent(this, SignUpActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, SignUpActivity::class.java))
         }
+    }
+
+    private fun isValidEmail(email: String): Boolean {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    }
+
+    private fun saveUserDetails(email: String, userType: String) {
+        val sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("email", email)
+        editor.putString("userType", userType)
+        editor.apply()
+    }
+
+    private fun navigateToDashboard(userType: String) {
+        when (userType) {
+            "Doctor" -> startActivity(Intent(this, PatientListActivity::class.java))
+            "Patient" -> startActivity(Intent(this, GlucoseChartActivity::class.java))
+            "Admin" -> startActivity(Intent(this, AdminDash::class.java))
+            else -> Toast.makeText(this, "Unknown user type", Toast.LENGTH_SHORT).show()
+        }
+        finish()
     }
 }

@@ -26,6 +26,7 @@
             android:hint="Email"
             android:textColor="@color/black"
             android:textSize="24sp"
+            android:inputType="textEmailAddress"
             android:background="@drawable/rounded_textview"
             android:minHeight="69dp"
             android:layout_marginBottom="16dp" />
@@ -35,6 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Password"
+            android:inputType="textPassword"
             android:textColor="@color/black"
             android:textSize="24sp"
             android:background="@drawable/rounded_textview"

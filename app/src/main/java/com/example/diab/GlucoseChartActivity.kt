@@ -93,6 +93,34 @@ class GlucoseChartActivity : AppCompatActivity() {
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
+
+        val headerView = navView.getHeaderView(0) // Access the first header view
+        val userNameTextView: TextView = headerView.findViewById(R.id.user_name)
+        val userEmailTextView: TextView = headerView.findViewById(R.id.user_email)
+
+        if (currentUser != null) {
+            userId = currentUser.uid
+
+            // Fetch user details from Firestore
+            firestore.collection("users").document(userId).get()
+                .addOnSuccessListener { document ->
+                    if (document != null) {
+                        val userName = document.getString("name") ?: "Name not available"
+                        val userEmail = document.getString("email") ?: "Email not available"
+
+                        // Populate the navigation header
+                        userNameTextView.text = userName
+                        userEmailTextView.text = userEmail
+                    }
+                }
+                .addOnFailureListener { e ->
+                    Log.e("GlucoseChartActivity", "Error fetching user details", e)
+                    Toast.makeText(this, "Failed to load user details", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
+        }
+
         // Handle navigation item clicks
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {

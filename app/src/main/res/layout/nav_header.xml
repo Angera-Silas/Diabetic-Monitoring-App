@@ -20,7 +20,7 @@
         android:id="@+id/user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="John Doe"
+        android:text="Mercy Jesang"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         android:layout_gravity="center"
@@ -30,7 +30,7 @@
         android:id="@+id/user_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="john.doe@example.com"
+        android:text="admin@gmail.com"
         android:textColor="@android:color/white"
         android:textSize="14sp"
         android:layout_gravity="center"/>

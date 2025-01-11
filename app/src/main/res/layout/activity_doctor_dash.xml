@@ -17,9 +17,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/top_view"
-        android:layout_marginStart="24dp"
+        android:layout_marginHorizontal="8dp"
+        android:paddingHorizontal="16dp"
         android:layout_marginTop="25dp"
-        android:layout_marginEnd="24dp"
         android:columnCount="2"
         android:rowCount="3"
         android:useDefaultMargins="true">
@@ -28,15 +28,16 @@
             android:id="@+id/cardPatients"
             android:layout_width="150dp"
             android:layout_height="200dp"
-            android:layout_margin="12dp"
             android:layout_gravity="center"
             app:cardCornerRadius="15dp"
+            android:layout_marginBottom="16dp"
             app:cardElevation="12dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
+                android:layout_gravity="center"
                 android:orientation="vertical">
 
                 <ImageView
@@ -60,15 +61,16 @@
             android:id="@+id/cardReports"
             android:layout_width="150dp"
             android:layout_height="200dp"
-            android:layout_margin="12dp"
             android:layout_gravity="center"
             app:cardCornerRadius="15dp"
+            android:layout_marginBottom="16dp"
             app:cardElevation="12dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
+                android:layout_gravity="center"
                 android:orientation="vertical">
 
                 <ImageView
@@ -92,9 +94,9 @@
             android:id="@+id/cardChat"
             android:layout_width="150dp"
             android:layout_height="200dp"
-            android:layout_margin="12dp"
             android:layout_gravity="center"
             app:cardCornerRadius="15dp"
+            android:layout_marginBottom="16dp"
             app:cardElevation="12dp">
 
             <RelativeLayout
@@ -118,6 +120,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
+                    android:layout_gravity="center"
                     android:orientation="vertical">
 
                     <ImageView
@@ -143,8 +146,8 @@
             android:id="@+id/cardAppointment"
             android:layout_width="150dp"
             android:layout_height="200dp"
-            android:layout_margin="12dp"
             android:layout_gravity="center"
+            android:layout_marginBottom="16dp"
             app:cardCornerRadius="15dp"
             app:cardElevation="12dp">
 
@@ -153,6 +156,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
+                android:layout_gravity="center"
                 android:orientation="vertical">
 
                 <ImageView
@@ -163,9 +167,11 @@
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="62dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:gravity="center"
                     android:text="@string/Appointmnet"
+
                     android:textColor="@color/black"
                     android:textSize="24sp"
                     android:textStyle="bold" />
@@ -187,8 +193,8 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="286dp"
-        android:layout_height="88dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="49dp"
         android:text="@string/dashboard"
