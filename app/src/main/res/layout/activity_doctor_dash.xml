@@ -14,20 +14,22 @@
         android:background="@drawable/bg_view" />
 
     <GridLayout
-        android:layout_width="387dp"
-        android:layout_height="481dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/top_view"
         android:layout_marginStart="24dp"
         android:layout_marginTop="25dp"
         android:layout_marginEnd="24dp"
         android:columnCount="2"
-        android:rowCount="3">
+        android:rowCount="3"
+        android:useDefaultMargins="true">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardPatients"
             android:layout_width="150dp"
             android:layout_height="200dp"
             android:layout_margin="12dp"
+            android:layout_gravity="center"
             app:cardCornerRadius="15dp"
             app:cardElevation="12dp">
 
@@ -59,6 +61,7 @@
             android:layout_width="150dp"
             android:layout_height="200dp"
             android:layout_margin="12dp"
+            android:layout_gravity="center"
             app:cardCornerRadius="15dp"
             app:cardElevation="12dp">
 
@@ -90,6 +93,7 @@
             android:layout_width="150dp"
             android:layout_height="200dp"
             android:layout_margin="12dp"
+            android:layout_gravity="center"
             app:cardCornerRadius="15dp"
             app:cardElevation="12dp">
 
@@ -104,10 +108,10 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="8dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
                     android:src="@drawable/baseline_notifications_active_24"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:id="@+id/cardChatLayout"
@@ -140,6 +144,7 @@
             android:layout_width="150dp"
             android:layout_height="200dp"
             android:layout_margin="12dp"
+            android:layout_gravity="center"
             app:cardCornerRadius="15dp"
             app:cardElevation="12dp">
 
