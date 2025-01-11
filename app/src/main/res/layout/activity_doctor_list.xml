@@ -2,10 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewDoctors"
+        tools:listitem="@layout/item_doctor"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
